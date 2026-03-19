@@ -1,0 +1,32 @@
+# The Docker Compose file format version, always include this.
+version: '3.8'
+
+# Services: defines all your containers, each item under services is one container.
+services:
+# Dashboard: your Python app container, uses the image you pushed to Docker Hub.
+  dashboard:
+    image: vacarualex/devops-dashboard:v1
+    # Ports: maps host port to container port, same as -p in docker run.
+    ports:
+      - "8080:8080"
+    # Environment: sets environment variables inside the container, same as -e in docker run.
+    environment:
+      - PORT=8080
+    # Depends_on: tells Compose to start db before dashboard, your app needs the database to be running first.
+    depends_on:
+      - db
+    # restart: always — if the container crashes, restart it automatically, essential for production.
+    restart: always
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=dashboard
+      - POSTGRES_USER=alex
+      - POSTGRES_PASSWORD=devops123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  postgres_data:
