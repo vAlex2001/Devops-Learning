@@ -4,7 +4,11 @@ FROM python:3.11-slim
 # Set working directory inside the container
 WORKDIR /app
 
+# Sets python not to buffer the request
 ENV PYTHONUNBUFFERED=1
+
+# Install the neccessary library for connecting to PostgreSQL
+RUN pip install psycopg2-binary
 
 # Copy our app into the container
 COPY app.py .

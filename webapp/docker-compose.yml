@@ -5,13 +5,17 @@ version: '3.8'
 services:
 # Dashboard: your Python app container, uses the image you pushed to Docker Hub.
   dashboard:
-    image: vacarualex/devops-dashboard:v1
+    build: .
     # Ports: maps host port to container port, same as -p in docker run.
     ports:
       - "8080:8080"
     # Environment: sets environment variables inside the container, same as -e in docker run.
     environment:
       - PORT=8080
+      - DB_HOST=db
+      - DB_NAME=dashboard
+      - DB_USER=alex
+      - DB_PASSWORD=devops123
     # Depends_on: tells Compose to start db before dashboard, your app needs the database to be running first.
     depends_on:
       - db
